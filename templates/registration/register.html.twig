@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{ 'auth.register_title'|trans }}{% endblock %}
 
 {% block body %}
     <div class="row justify-content-center">
         <div class="col-md-7 col-lg-6">
-            <h1 class="h3 mb-3">Create an account</h1>
+            <h1 class="h3 mb-3">{{ 'auth.register_title'|trans }}</h1>
 
             {% for message in app.flashes('success') %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -17,10 +17,10 @@
                 {{ form_row(registrationForm.plainPassword.first) }}
                 {{ form_row(registrationForm.plainPassword.second) }}
 
-                <button type="submit" class="btn btn-primary w-100">Create account</button>
+                <button type="submit" class="btn btn-primary w-100">{{ 'auth.register_button'|trans }}</button>
 
                 <div class="text-center">
-                    <a href="{{ path('app_login') }}">Already have an account?</a>
+                    <a href="{{ path('app_login') }}">{{ 'auth.have_account'|trans }}</a>
                 </div>
             {{ form_end(registrationForm) }}
         </div>

@@ -1,0 +1,28 @@
+nav:
+  brand: "Space Channel Mirage 5"
+  home: "Home"
+  login: "Login"
+  register: "Register"
+  logout: "Logout"
+  language: "Language"
+
+home:
+  title: "Space Channel Mirage 5"
+  tagline: "Battle reports, mini photos, tournaments and army discussions for the Infinity community."
+  battle_reports_title: "Battle reports"
+  battle_reports_text: "Write and share your games with photos, lists and scenarios."
+  gallery_title: "Mini gallery"
+  gallery_text: "Show your painted minis and comment on others."
+  coming_soon: "Coming soon"
+
+auth:
+  login_title: "Login"
+  register_title: "Create an account"
+  login_button: "Sign in"
+  register_button: "Create account"
+  have_account: "Already have an account?"
+  need_account: "Create an account"
+  email_label: "Email"
+  password_label: "Password"
+  remember_me: "Remember me"
+

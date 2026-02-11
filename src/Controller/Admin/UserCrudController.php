@@ -25,11 +25,11 @@ final class UserCrudController extends AbstractCrudController
         yield ChoiceField::new('roles')
             ->allowMultipleChoices()
             ->renderExpanded(false)
+            ->renderAsBadges()
             ->setChoices([
                 'User' => 'ROLE_USER',
                 'Admin' => 'ROLE_ADMIN',
-            ])
-            ->hideOnIndex();
+            ]);
         yield DateTimeField::new('createdAt')->hideOnForm();
     }
 }

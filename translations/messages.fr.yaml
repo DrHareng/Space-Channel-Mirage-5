@@ -1,0 +1,28 @@
+nav:
+  brand: "Space Channel Mirage 5"
+  home: "Accueil"
+  login: "Connexion"
+  register: "Inscription"
+  logout: "Déconnexion"
+  language: "Langue"
+
+home:
+  title: "Space Channel Mirage 5"
+  tagline: "Comptes-rendus de batailles, photos de figurines, tournois et discussions de listes d'armée pour la communauté Infintiy."
+  battle_reports_title: "Comptes-rendus de batailles"
+  battle_reports_text: "Raconte et partage tes parties avec photos, listes et scénarios."
+  gallery_title: "Galerie de figurines"
+  gallery_text: "Montre tes figurines peintes et commente celles des autres."
+  coming_soon: "Bientôt disponible"
+
+auth:
+  login_title: "Connexion"
+  register_title: "Créer un compte"
+  login_button: "Se connecter"
+  register_button: "Créer le compte"
+  have_account: "Tu as déjà un compte ?"
+  need_account: "Créer un compte"
+  email_label: "Email"
+  password_label: "Mot de passe"
+  remember_me: "Se souvenir de moi"
+

@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
+
+final class LocaleController extends AbstractController
+{
+    #[Route('/locale/{locale}', name: 'app_locale_switch', requirements: ['locale' => 'en|fr'], methods: ['GET'])]
+    public function switch(string $locale, Request $request): RedirectResponse
+    {
+        $request->getSession()->set('_locale', $locale);
+
+        $referer = $request->headers->get('referer');
+
+        return $this->redirect($referer ?? $this->generateUrl('app_home'));
+    }
+}
+
