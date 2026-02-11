@@ -22,6 +22,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 64)]
     private ?string $displayName = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilePictureFilename = null;
+
     /**
      * @var list<string> The user roles
      */
@@ -67,6 +70,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDisplayName(string $displayName): static
     {
         $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    public function getProfilePictureFilename(): ?string
+    {
+        return $this->profilePictureFilename;
+    }
+
+    public function setProfilePictureFilename(?string $profilePictureFilename): static
+    {
+        $this->profilePictureFilename = $profilePictureFilename;
 
         return $this;
     }
