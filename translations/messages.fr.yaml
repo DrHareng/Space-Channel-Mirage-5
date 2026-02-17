@@ -5,7 +5,8 @@ nav:
   register: "Inscription"
   logout: "Déconnexion"
   language: "Langue"
-
+  profile: "Profil"
+  
 home:
   title: "Space Channel Mirage 5"
   tagline: "Comptes-rendus de batailles, photos de figurines, tournois et discussions de listes d'armée pour la communauté Infintiy."

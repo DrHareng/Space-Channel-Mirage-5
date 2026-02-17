@@ -5,6 +5,7 @@ nav:
   register: "Register"
   logout: "Logout"
   language: "Language"
+  profile: "Profile"
 
 home:
   title: "Space Channel Mirage 5"

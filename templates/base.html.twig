@@ -30,16 +30,29 @@
                             </li>
                         {% endif %}
                     </ul>
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center" id="userNavbar">
                         {% if app.user %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_profile') }}">Profile</a>
-                            </li>
-                            <li class="nav-item">
-                                <span class="navbar-text me-2">{{ app.user.userIdentifier }}</span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_logout') }}">{{ 'nav.logout'|trans }}</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-center" id="userNavbarMenu" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {% if app.user.profilePictureFilename %}
+                                        <img
+                                            src="{{ asset('uploads/avatars/' ~ app.user.profilePictureFilename) }}"
+                                            class="rounded-circle"
+                                            alt="Profile picture"
+                                            style="width: 30px; height: 30px; object-fit: cover;"
+                                        >
+                                    {% else %}
+                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mb-3"
+                                            style="width: 30px; height: 30px; font-size: 32px;">
+                                            {{ app.user.displayName|first|upper }}
+                                        </div>
+                                    {% endif %}
+                                    &nbsp&nbsp{{ app.user.displayName }}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="userNavbarMenu">
+                                    <li><a class="dropdown-item" href="{{ path('app_profile') }}">{{ 'nav.profile'|trans }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'nav.logout'|trans }}</a></li>
+                                </ul>
                             </li>
                         {% else %}
                             <li class="nav-item">
