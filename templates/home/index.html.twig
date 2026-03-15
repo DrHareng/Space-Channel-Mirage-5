@@ -3,6 +3,7 @@
 {% block title %}{{ 'home.title'|trans }}{% endblock %}
 
 {% block body %}
+    <!--
     <div class="p-4 p-md-5 mb-4 bg-body-tertiary border rounded-3">
         <div class="container-fluid py-2">
             <h1 class="display-6 mb-2">{{ 'home.title'|trans }}</h1>
@@ -11,6 +12,7 @@
             </p>
         </div>
     </div>
+    -->
 
     <div class="row g-4">
         <div class="col-md-6">
@@ -23,6 +25,33 @@
             </div>
         </div>
         <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">{{ 'home.turnaments_title'|trans }}</h2>
+                    <p class="card-text">{{ 'home.turnaments_text'|trans }}</p>
+                    <a class="btn btn-primary disabled" href="#" aria-disabled="true">{{ 'home.coming_soon'|trans }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">{{ 'home.army_list_title'|trans }}</h2>
+                    <p class="card-text">{{ 'home.army_list_text'|trans }}</p>
+                    <a class="btn btn-primary disabled" href="#" aria-disabled="true">{{ 'home.coming_soon'|trans }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">{{ 'home.troops_title'|trans }}</h2>
+                    <p class="card-text">{{ 'home.troops_text'|trans }}</p>
+                    <a class="btn btn-primary disabled" href="#" aria-disabled="true">{{ 'home.coming_soon'|trans }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
             <div class="card h-100">
                 <div class="card-body">
                     <h2 class="h5 card-title">{{ 'home.gallery_title'|trans }}</h2>

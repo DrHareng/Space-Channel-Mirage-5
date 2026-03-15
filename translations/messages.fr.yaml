@@ -1,8 +1,10 @@
 nav:
   brand: "Space Channel Mirage 5"
+  tagline: "Un média pour la communauté Infintiy."
   home: "Accueil"
   login: "Connexion"
   register: "Inscription"
+  my_army_lists: "Mes listes"
   logout: "Déconnexion"
   language: "Langue"
   profile: "Profil"
@@ -12,6 +14,12 @@ home:
   tagline: "Comptes-rendus de batailles, photos de figurines, tournois et discussions de listes d'armée pour la communauté Infintiy."
   battle_reports_title: "Comptes-rendus de batailles"
   battle_reports_text: "Raconte et partage tes parties avec photos, listes et scénarios."
+  turnaments_title: "Tournois"
+  turnaments_text: "Participe à des tournois et montre tes compétences."
+  army_list_title: "Listes d'armée"
+  army_list_text: "Partage tes listes d'armée et discute avec les autres."
+  troops_title: "Profils"
+  troops_text: "Discute d'un profilavec les autres."
   gallery_title: "Galerie de figurines"
   gallery_text: "Montre tes figurines peintes et commente celles des autres."
   coming_soon: "Bientôt disponible"
@@ -27,3 +35,9 @@ auth:
   password_label: "Mot de passe"
   remember_me: "Se souvenir de moi"
 
+army_list:
+  my_title: "Mes listes d'armée"
+  all_title: "Toutes les listes d'armée"
+  army: "Armée"
+  name: "Nom"
+  code: "Code"

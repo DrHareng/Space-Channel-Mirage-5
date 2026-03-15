@@ -1,8 +1,10 @@
 nav:
   brand: "Space Channel Mirage 5"
+  tagline: "A media platform for the Infinity community."
   home: "Home"
   login: "Login"
   register: "Register"
+  my_army_lists: "My army lists"
   logout: "Logout"
   language: "Language"
   profile: "Profile"
@@ -12,6 +14,12 @@ home:
   tagline: "Battle reports, mini photos, tournaments and army discussions for the Infinity community."
   battle_reports_title: "Battle reports"
   battle_reports_text: "Write and share your games with photos, lists and scenarios."
+  turnaments_title: "Tournaments"
+  turnaments_text: "Participate in tournaments and show your skills."
+  army_list_title: "Army lists"
+  army_list_text: "Share your army lists and discuss them with others."
+  troops_title: "Troops"
+  troops_text: "Discuss a troop with others."
   gallery_title: "Mini gallery"
   gallery_text: "Show your painted minis and comment on others."
   coming_soon: "Coming soon"
@@ -27,3 +35,9 @@ auth:
   password_label: "Password"
   remember_me: "Remember me"
 
+army_list:
+  my_title: "My army lists"
+  all_title: "All army lists"
+  army: "Army"
+  name: "Name"
+  code: "Code"
