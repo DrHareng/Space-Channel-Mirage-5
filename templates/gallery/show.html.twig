@@ -1,0 +1,187 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ photo.title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Photo Display -->
+            <div class="card mb-4">
+                {% if photo.imageName %}
+                    <img src="{{ vich_uploader_asset(photo, 'imageFile') }}" 
+                         class="card-img-top" 
+                         alt="{{ photo.title }}"
+                         style="max-height: 600px; object-fit: contain;">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{ photo.title }}</h2>
+                    {% if photo.description %}
+                        <p class="card-text">{{ photo.description|nl2br }}</p>
+                    {% endif %}
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="author-info">
+                            <strong>
+                                <i class="fas fa-user"></i> {{ photo.author.displayName }}
+                            </strong>
+                            <br>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar"></i> {{ photo.createdAt|date('d/m/Y H:i') }}
+                            </small>
+                        </div>
+                        
+                        {% if is_granted('ROLE_USER') %}
+                            <div class="photo-actions">
+                                <button class="btn btn-outline-danger like-btn" 
+                                        data-photo-id="{{ photo.id }}"
+                                        data-liked="{{ photo.isLikedBy(app.user) ? 'true' : 'false' }}">
+                                    <i class="fas fa-heart"></i> 
+                                    <span class="likes-count">{{ photo.likesCount }}</span>
+                                </button>
+                                
+                                {% if photo.author == app.user or is_granted('ROLE_ADMIN') %}
+                                    <form method="post" action="{{ path('app_photo_delete', {'id': photo.id}) }}" 
+                                          class="d-inline" 
+                                          onsubmit="return confirm('{{ 'gallery.delete_confirm'|trans }}');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ photo.id) }}">
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="photo-actions">
+                                <span class="text-muted">
+                                    <i class="fas fa-heart"></i> {{ photo.likesCount }}
+                                </span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Tags -->
+                    {% if photo.tags|length > 0 %}
+                        <div class="mb-3">
+                            {% for tag in photo.tags %}
+                                <a href="{{ path('app_gallery', {'tag': tag.slug}) }}" 
+                                   class="badge bg-primary text-decoration-none me-1">
+                                    {{ tag.name }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">{{ 'gallery.comments'|trans }} ({{ photo.comments|length }})</h4>
+                </div>
+                <div class="card-body">
+                    {% if is_granted('ROLE_USER') %}
+                        <!-- Comment Form -->
+                        <div class="mb-4">
+                            <h5>{{ 'gallery.add_comment'|trans }}</h5>
+                            {{ form_start(comment_form) }}
+                                <div class="mb-3">
+                                    {{ form_widget(comment_form.content) }}
+                                    {{ form_errors(comment_form.content) }}
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    {{ 'gallery.post_comment'|trans }}
+                                </button>
+                            {{ form_end(comment_form) }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Comments List -->
+                    {% if photo.comments|length > 0 %}
+                        <div class="comments-list">
+                            {% for comment in photo.comments %}
+                                <div class="comment mb-3 p-3 border rounded">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <strong>
+                                            <i class="fas fa-user"></i> {{ comment.author.displayName }}
+                                        </strong>
+                                        <small class="text-muted">
+                                            {{ comment.createdAt|date('d/m/Y H:i') }}
+                                        </small>
+                                    </div>
+                                    <p class="mb-0">{{ comment.content|nl2br }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">{{ 'gallery.no_comments'|trans }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Sidebar with related photos -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">{{ 'gallery.more_photos'|trans }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        {% for relatedPhoto in photo.author.photos|slice(0, 6) %}
+                            {% if relatedPhoto.id != photo.id %}
+                                <div class="col-6">
+                                    <a href="{{ path('app_photo_show', {'id': relatedPhoto.id}) }}" 
+                                       class="text-decoration-none">
+                                        {% if relatedPhoto.imageName %}
+                                            <img src="{{ vich_uploader_asset(relatedPhoto, 'imageFile') }}" 
+                                                 class="img-fluid rounded" 
+                                                 alt="{{ relatedPhoto.title }}"
+                                                 style="height: 100px; object-fit: cover;">
+                                        {% endif %}
+                                        <small class="d-block text-dark text-truncate">{{ relatedPhoto.title }}</small>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const likeBtn = document.querySelector('.like-btn');
+    if (likeBtn) {
+        likeBtn.addEventListener('click', function() {
+            const photoId = this.dataset.photoId;
+            const isLiked = this.dataset.liked === 'true';
+            
+            fetch(`/gallery/photo/${photoId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.dataset.liked = data.liked;
+                this.querySelector('.likes-count').textContent = data.likesCount;
+                
+                if (data.liked) {
+                    this.classList.remove('btn-outline-danger');
+                    this.classList.add('btn-danger');
+                } else {
+                    this.classList.remove('btn-danger');
+                    this.classList.add('btn-outline-danger');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+});
+</script>
+{% endblock %}

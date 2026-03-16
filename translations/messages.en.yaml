@@ -8,6 +8,8 @@ nav:
   logout: "Logout"
   language: "Language"
   profile: "Profile"
+  mini_gallery: "Mini gallery"
+  my_pictures: "My pictures"
 
 home:
   title: "Space Channel Mirage 5"
@@ -23,6 +25,9 @@ home:
   gallery_title: "Mini gallery"
   gallery_text: "Show your painted minis and comment on others."
   coming_soon: "Coming soon"
+
+gallery:
+  view_all: "View all photos"
 
 auth:
   login_title: "Login"

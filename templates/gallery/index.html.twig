@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'gallery.title'|trans }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">{{ 'gallery.title'|trans }}</h1>
+            
+            {% if is_granted('ROLE_USER') %}
+                <div class="mb-3">
+                    <a href="{{ path('app_photo_upload') }}" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> {{ 'gallery.upload_photo'|trans }}
+                    </a>
+                    <a href="{{ path('app_my_gallery') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-images"></i> {{ 'gallery.my_gallery'|trans }}
+                    </a>
+                </div>
+            {% endif %}
+
+            <!-- Tag Filter -->
+            <div class="mb-4">
+                <form method="get" class="d-flex gap-2 align-items-center">
+                    <label for="tag" class="form-label mb-0">{{ 'gallery.filter_by_tag'|trans }}:</label>
+                    <select name="tag" id="tag" class="form-select" onchange="this.form.submit()">
+                        <option value="">{{ 'gallery.all_tags'|trans }}</option>
+                        {% for tag in tags %}
+                            <option value="{{ tag.slug }}" {% if selectedTag == tag.slug %}selected{% endif %}>
+                                {{ tag.name }} ({{ tag.photosCount }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+
+            <!-- Photos Grid -->
+            {% if photos|length > 0 %}
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                    {% for photo in photos %}
+                        <div class="col">
+                            <div class="card h-100 photo-card">
+                                <a href="{{ path('app_photo_show', {'id': photo.id}) }}" class="text-decoration-none">
+                                    {% if photo.imageName %}
+                                        <img src="{{ vich_uploader_asset(photo, 'imageFile') }}" 
+                                             class="card-img-top photo-thumbnail" 
+                                             alt="{{ photo.title }}"
+                                             loading="lazy">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title text-dark">{{ photo.title }}</h5>
+                                        <p class="card-text text-muted small">
+                                            <i class="fas fa-user"></i> {{ photo.author.displayName }}
+                                            <br>
+                                            <i class="fas fa-calendar"></i> {{ photo.createdAt|date('d/m/Y') }}
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="tags">
+                                                {% for tag in photo.tags|slice(0, 2) %}
+                                                    <span class="badge bg-secondary me-1">{{ tag.name }}</span>
+                                                {% endfor %}
+                                                {% if photo.tags|length > 2 %}
+                                                    <span class="badge bg-secondary">+{{ photo.tags|length - 2 }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="likes">
+                                                <i class="fas fa-heart text-danger"></i> {{ photo.likesCount }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-images fa-3x text-muted mb-3"></i>
+                    <h3 class="text-muted">{{ 'gallery.no_photos'|trans }}</h3>
+                    {% if is_granted('ROLE_USER') %}
+                        <p class="text-muted">{{ 'gallery.be_first'|trans }}</p>
+                        <a href="{{ path('app_photo_upload') }}" class="btn btn-primary">
+                            {{ 'gallery.upload_first'|trans }}
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.photo-thumbnail {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.photo-card:hover .photo-thumbnail {
+    transform: scale(1.05);
+}
+
+.photo-card {
+    transition: box-shadow 0.3s ease;
+}
+
+.photo-card:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.tags .badge {
+    font-size: 0.7rem;
+}
+</style>
+{% endblock %}

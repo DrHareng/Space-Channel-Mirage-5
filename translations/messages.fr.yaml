@@ -8,6 +8,8 @@ nav:
   logout: "Déconnexion"
   language: "Langue"
   profile: "Profil"
+  mini_gallery: "Galerie de figurines"
+  my_pictures: "Mes photos"
   
 home:
   title: "Space Channel Mirage 5"
@@ -23,6 +25,9 @@ home:
   gallery_title: "Galerie de figurines"
   gallery_text: "Montre tes figurines peintes et commente celles des autres."
   coming_soon: "Bientôt disponible"
+
+gallery:
+  view_all: "Voir toutes les photos"
 
 auth:
   login_title: "Connexion"

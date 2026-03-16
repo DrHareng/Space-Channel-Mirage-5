@@ -3,17 +3,6 @@
 {% block title %}{{ 'home.title'|trans }}{% endblock %}
 
 {% block body %}
-    <!--
-    <div class="p-4 p-md-5 mb-4 bg-body-tertiary border rounded-3">
-        <div class="container-fluid py-2">
-            <h1 class="display-6 mb-2">{{ 'home.title'|trans }}</h1>
-            <p class="lead mb-0">
-                {{ 'home.tagline'|trans }}
-            </p>
-        </div>
-    </div>
-    -->
-
     <div class="row g-4">
         <div class="col-md-6">
             <div class="card h-100">
@@ -54,12 +43,160 @@
         <div class="col-md-12">
             <div class="card h-100">
                 <div class="card-body">
-                    <h2 class="h5 card-title">{{ 'home.gallery_title'|trans }}</h2>
-                    <p class="card-text">{{ 'home.gallery_text'|trans }}</p>
-                    <a class="btn btn-primary disabled" href="#" aria-disabled="true">{{ 'home.coming_soon'|trans }}</a>
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h2 class="h5 card-title mb-1">{{ 'home.gallery_title'|trans }}</h2>
+                            <p class="card-text mb-0">{{ 'home.gallery_text'|trans }}</p>
+                        </div>
+                        <a class="btn btn-primary" href="{{ path('app_gallery') }}">{{ 'gallery.view_all'|trans }}</a>
+                    </div>
+                    
+                    <!-- Horizontal Photo Gallery -->
+                    {% if latestPhotos|length > 0 %}
+                    <div class="photo-gallery-container">
+                        <div class="photo-gallery-scroll">
+                            {% for photo in latestPhotos %}
+                                <div class="photo-item">
+                                    <a href="{{ path('app_photo_show', {'id': photo.id}) }}" class="text-decoration-none">
+                                        {% if photo.imageName %}
+                                            <img src="{{ vich_uploader_asset(photo, 'imageFile') }}" 
+                                                alt="{{ photo.title }}"
+                                                class="gallery-photo">
+                                        {% endif %}
+                                        <div class="photo-info">
+                                            <h6 class="photo-title">{{ photo.title }}</h6>
+                                            <p class="photo-meta">{{ photo.author.displayName }} • {{ photo.createdAt|date('d/m/Y') }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .photo-gallery-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #f8f9fa;
+            padding: 1rem 0;
+        }
+
+        .photo-gallery-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 0 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #f1f1f1;
+        }
+
+        .photo-gallery-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .photo-gallery-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .photo-gallery-scroll::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .photo-gallery-scroll::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .photo-item {
+            flex: 0 0 auto;
+            width: 250px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .gallery-photo {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            background: #f8f9fa;
+        }
+
+        .photo-info {
+            padding: 0.75rem;
+        }
+
+        .photo-title {
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .photo-meta {
+            margin: 0;
+            font-size: 0.75rem;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Auto-scroll animation */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .photo-gallery-scroll {
+            animation: scroll 20s linear infinite;
+        }
+
+        .photo-gallery-scroll:hover {
+            animation-play-state: paused;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainer = document.querySelector('.photo-gallery-scroll');
+            if (scrollContainer && scrollContainer.children.length > 0) {
+                // Clone all photos for seamless loop
+                const photos = Array.from(scrollContainer.children);
+                photos.forEach(photo => {
+                    const clone = photo.cloneNode(true);
+                    scrollContainer.appendChild(clone);
+                });
+
+                // Calculate animation duration based on total width
+                const photoItem = scrollContainer.querySelector('.photo-item');
+                const photoWidth = photoItem ? photoItem.offsetWidth : 250;
+                const gap = 16; // 1rem gap
+                const totalWidth = (photoWidth + gap) * photos.length;
+                const duration = totalWidth / 80; // 80px per second speed (faster)
+
+                // Update animation duration dynamically
+                scrollContainer.style.animationDuration = `${duration}s`;
+            }
+        });
+    </script>
 {% endblock %}
 
