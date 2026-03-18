@@ -77,7 +77,7 @@ final class PhotoController extends AbstractController
 
         return $this->render('gallery/show.html.twig', [
             'photo' => $photo,
-            'form' => $form,
+            'comment_form' => $form,
         ]);
     }
 
